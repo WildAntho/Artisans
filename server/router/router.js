@@ -1,5 +1,5 @@
 const express = require("express");
-const { addProduct, browse, getOne, deleteOne, updateOne } = require("../controller/productController");
+const { addProduct, browse, getOne, deleteOne, updateOne, getType } = require("../controller/productController");
 
 const router = express.Router();
 
@@ -17,5 +17,8 @@ router.put("/product/:id", updateOne)
 
 // Delete route
 router.delete("/product/:id", deleteOne)
+
+// Get all products by category
+router.get("/product/category/:type", getType)
 
 module.exports = router;

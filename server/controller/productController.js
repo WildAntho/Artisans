@@ -64,4 +64,18 @@ const updateOne = async (req, res) => {
   }
 };
 
-module.exports = { addProduct, browse, getOne, deleteOne, updateOne };
+const getType = async (req, res) => {
+    try {
+        const products = await Product.find({type: req.params.type})
+        if (products.length > 0){
+            res.status(200).json(products)
+        } else {
+            res.sendStatus(404)
+        }
+        
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+module.exports = { addProduct, browse, getOne, deleteOne, updateOne, getType };
