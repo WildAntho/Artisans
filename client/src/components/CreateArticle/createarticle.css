@@ -7,7 +7,7 @@
   width: 100vw;
   min-height: 100vh;
   padding: 50px;
-  background-color: rgb(227, 227, 227);
+  background-color: white;
 }
 
 .modal-creation input {
@@ -15,6 +15,9 @@
   height: 50px;
   border-radius: 10px;
   padding: 10px;
+  box-shadow: 4px 3px 3px 0 rgba(0, 0, 0, 0.3);
+  border: solid black;
+  border-width: thin;
 }
 
 .container-button {

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
+import logo from "../../assets/logo.svg";
 import { purple } from "@mui/material/colors";
 import "./nav.css";
 
@@ -14,7 +15,7 @@ export default function Nav({ handleOpen }) {
   }));
   return (
     <nav>
-      <h1>Artisans</h1>
+      <img src={logo} alt="les bons artisans"/>
       <div className="nav-profil">
         <ColorButton variant="contained" onClick={handleOpen}>
           Ajouter un article
