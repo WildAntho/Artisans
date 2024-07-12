@@ -5,7 +5,8 @@ const app = express()
 
 const port = process.env.APP_PORT
 const dbpass = process.env.DB_PASSWORD
-console.log(dbpass);
+
+app.use(express.json());
 
 mongoose.connect(`mongodb+srv://anthonydufrenot:${dbpass}@backendb.9mhl0om.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackenDB`)
   .then(() => {
@@ -14,3 +15,7 @@ mongoose.connect(`mongodb+srv://anthonydufrenot:${dbpass}@backendb.9mhl0om.mongo
         console.log('Server is running on 3310 port');
     })
 });
+
+const apiRouter = require('./router/router')
+
+app.use("/api", apiRouter)

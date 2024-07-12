@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Button, Modal } from "@mui/material";
 import "./createarticle.css";
 import { useRef } from "react";
@@ -47,3 +48,8 @@ export default function CreateArticle({ open, handleClose }) {
     </Modal>
   );
 }
+
+CreateArticle.propTypes = {
+    open: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+  };
