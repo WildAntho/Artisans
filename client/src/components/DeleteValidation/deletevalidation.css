@@ -1,0 +1,30 @@
+.validation-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  width: 70%;
+  height: 400px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.validation-container p {
+  font-size: 2em;
+}
+
+.validation-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}

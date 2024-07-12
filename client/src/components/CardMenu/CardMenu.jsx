@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
-import { useState } from "react";
 
 const ITEM_HEIGHT = 48;
 
-function CardMenu({ handleDelete, handleEdit }) {
-  const [anchorEl, setAnchorEl] = useState(null);
+function CardMenu({ handleOpen, anchorEl, setAnchorEl, handleOpenValidation }) {
   const open = Boolean(anchorEl);
 
   const handleClick = (e) => {
@@ -16,6 +14,11 @@ function CardMenu({ handleDelete, handleEdit }) {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const managingOpen = () => {
+    handleOpen();
+    setAnchorEl(false);
   };
 
   return (
@@ -45,8 +48,8 @@ function CardMenu({ handleDelete, handleEdit }) {
           },
         }}
       >
-        <MenuItem onClick={handleEdit}>éditer</MenuItem>
-        <MenuItem onClick={handleDelete}>supprimer</MenuItem>
+        <MenuItem onClick={managingOpen}>éditer</MenuItem>
+        <MenuItem onClick={handleOpenValidation}>supprimer</MenuItem>
       </Menu>
     </div>
   );
@@ -55,9 +58,10 @@ export default CardMenu;
 
 CardMenu.propTypes = {
   handleDelete: PropTypes.func.isRequired,
-  handleEdit: PropTypes.func.isRequired,
+  handleOpenValidation: PropTypes.func.isRequired,
   anchorEl: PropTypes.instanceOf(Element),
   setAnchorEl: PropTypes.func,
+  handleOpen: PropTypes.func.isRequired
 };
 
 CardMenu.defaultProps = {
