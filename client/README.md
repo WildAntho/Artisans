@@ -5,13 +5,13 @@
 1. Clonez le dépôt :
 git@github.com:WildAntho/Artisans.git
 
-2. Installez les dépendances :
+2. Installez les dépendances :  
 cd client  
 npm install  
 cd ../server  
 npm install  
 
-3. Configurez les fichiers .env pour le client et le serveur :
+3. Configurez les fichiers .env pour le client et le serveur :  
 Voir .env.sample
 
 ## Lancement application 
