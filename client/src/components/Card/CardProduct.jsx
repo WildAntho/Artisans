@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import { CardActions, CardContent, CardHeader } from "@mui/material";
 import { toast } from "sonner";
-import "./card.css";
 import Card from "@mui/material/Card";
 import CardMenu from "../CardMenu/CardMenu";
 import { useState } from "react";
 import DeleteValidation from "../DeleteValidation/DeleteValidation";
+import { useOutletContext } from "react-router-dom";
 
 export default function CardProduct({
   data,
@@ -13,6 +13,7 @@ export default function CardProduct({
   handleOpen,
   setIdCard,
 }) {
+  const { auth } = useOutletContext();
   // URL Api
   const api = import.meta.env.VITE_API_URL;
 
@@ -41,6 +42,9 @@ export default function CardProduct({
     try {
       const response = await fetch(`${api}/api/product/${data._id}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
       });
       if (response.ok) {
         toast.success("Produit supprimé avec succès");
@@ -55,12 +59,14 @@ export default function CardProduct({
       <Card sx={{ width: 400 }}>
         <CardHeader
           action={
-            <CardMenu
-              anchorEl={anchorEl}
-              setAnchorEl={setAnchorEl}
-              handleOpenValidation={handleOpenValidation}
-              handleOpen={handleGetId}
-            />
+            auth.role === "admin" ? (
+              <CardMenu
+                anchorEl={anchorEl}
+                setAnchorEl={setAnchorEl}
+                handleOpenValidation={handleOpenValidation}
+                handleOpen={handleGetId}
+              />
+            ) : null
           }
           title={data.title}
         />
@@ -84,7 +90,7 @@ export default function CardProduct({
 CardProduct.propTypes = {
   data: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    _id: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     warranty: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,

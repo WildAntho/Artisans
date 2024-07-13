@@ -1,10 +1,10 @@
 import { Button, TextField } from "@mui/material";
-import "./register.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { toast } from "sonner";
 
-export default function Register() {
+export default function Login() {
+  const { setAuth } = useOutletContext();
   // URL Api
   const api = import.meta.env.VITE_API_URL;
 
@@ -12,12 +12,11 @@ export default function Register() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorInput, setErrorInput] = useState({});
+  const [errorInput, setErrorInput] = useState(false);
 
-  const handleRegister = async () => {
-    setErrorInput({});
+  const handleLogin = async () => {
     try {
-      const response = await fetch(`${api}/api/user/`, {
+      const response = await fetch(`${api}/api/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,17 +25,16 @@ export default function Register() {
           email,
           password,
         }),
+        credentials: "include",
       });
-      const data = await response.json();
-      if (data.details) {
-        data.details.forEach((detail) => {
-          setErrorInput((prev) => ({
-            ...prev,
-            [detail.context.key]: [detail.message],
-          }));
-        });
+      if (response.ok) {
+        const token = response.headers.get("Authorization");
+        const data = await response.json();
+        data.token = token;
+        setAuth(data);
+        navigate("/");
       } else {
-        navigate("/login");
+        setErrorInput(true);
       }
     } catch (error) {
       toast.error("Une erreur est survenue");
@@ -46,16 +44,16 @@ export default function Register() {
   return (
     <section className="register">
       <div className="register-container">
-        <h1>Créer un compte</h1>
+        <h1>Se connecter</h1>
         <TextField
           fullWidth
-          error={errorInput.email ? true : false}
+          error={errorInput ? true : false}
           label="Adresse Mail"
           id="fullWidth"
           helperText={
-            errorInput.email
-              ? "Veuillez renseigner une adresse mail valide"
-              : "Renseignez votre adresse mail"
+            errorInput
+              ? "Mot de passe ou email incorrect"
+              : "Renseignez votre mot de passe"
           }
           value={email}
           onChange={(e) => {
@@ -64,12 +62,12 @@ export default function Register() {
         />
         <TextField
           fullWidth
-          error={errorInput.password ? true : false}
+          error={errorInput ? true : false}
           label="Mot de passe"
           type="password"
           helperText={
-            errorInput.email
-              ? "Mot de passe pas assez robuste"
+            errorInput
+              ? "Mot de passe ou email incorrect"
               : "Renseignez votre mot de passe"
           }
           value={password}
@@ -77,11 +75,11 @@ export default function Register() {
             setPassword(e.target.value);
           }}
         />
-        <Button variant="contained" onClick={handleRegister}>
-          {"Je m'inscris"}
+        <Button variant="contained" onClick={handleLogin}>
+          {"Je me connecte"}
         </Button>
-        <Button variant="text" onClick={() => navigate("/login")}>
-          {"J'ai déjà un compte"}
+        <Button variant="text" onClick={() => navigate("/register")}>
+          {"Je n'ai pas de compte"}
         </Button>
       </div>
     </section>

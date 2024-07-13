@@ -4,8 +4,15 @@ import CreateArticle from "../../components/CreateArticle/CreatArticle";
 import { useEffect, useState } from "react";
 import Nav from "../../components/Nav/Nav";
 import { Button } from "@mui/material";
+import { useOutletContext } from "react-router-dom";
+import Loading from "../../components/Loading/Loading";
 
 export default function Home() {
+  const { setAuth } = useOutletContext();
+
+  //Loading state to wait the refresh
+  const [loading, setLoading] = useState(true);
+
   // URL Api
   const api = import.meta.env.VITE_API_URL;
 
@@ -34,6 +41,25 @@ export default function Home() {
     setOpen(false);
     setIdCard(null);
   };
+
+  // Refresh call to stay connected
+  const handleRefresh = async () => {
+    try {
+      const response = await fetch(`${api}/api/refresh`, {
+        credentials: "include",
+      });
+      const data = await response.json();
+      const token = response.headers.get("Authorization");
+      data.token = token;
+      setAuth(data);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    handleRefresh();
+  }, []);
 
   // Fetch to get all products
   const getProducts = async () => {
@@ -67,6 +93,7 @@ export default function Home() {
 
   return (
     <>
+      {loading && <Loading />}
       <Nav handleOpen={handleOpen} setIdCard={setIdCard} />
       <section className="home">
         <div className="category">
@@ -109,7 +136,7 @@ export default function Home() {
         <div className="card-container">
           {products.map((value) => (
             <CardProduct
-              key={value.name}
+              key={value._id}
               data={value}
               setUpdate={setUpdate}
               handleOpen={handleOpen}
