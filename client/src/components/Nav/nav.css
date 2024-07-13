@@ -18,3 +18,10 @@ nav {
   align-items: center;
   gap: 20px;
 }
+
+.first-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}

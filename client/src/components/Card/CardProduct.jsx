@@ -1,11 +1,15 @@
 import PropTypes from "prop-types";
-import { CardActions, CardContent, CardHeader } from "@mui/material";
+import { Avatar, CardActions, CardContent, CardHeader } from "@mui/material";
+import { IoPhonePortraitOutline, IoWatchOutline } from "react-icons/io5";
+import { MdComputer } from "react-icons/md";
+import { PiTelevisionSimple } from "react-icons/pi";
 import { toast } from "sonner";
 import Card from "@mui/material/Card";
 import CardMenu from "../CardMenu/CardMenu";
 import { useState } from "react";
 import DeleteValidation from "../DeleteValidation/DeleteValidation";
 import { useOutletContext } from "react-router-dom";
+import "./cardproduct.css";
 
 export default function CardProduct({
   data,
@@ -56,8 +60,42 @@ export default function CardProduct({
   };
   return (
     <>
-      <Card sx={{ width: 400 }}>
+      <Card sx={{ width: 400 }} className="card-product">
         <CardHeader
+          avatar={
+            (data.type === "Phone" && (
+              <Avatar
+                aria-label="recipe"
+                sx={{ bgcolor: "rgba(0, 0, 255, 0.5)" }}
+              >
+                <IoPhonePortraitOutline />
+              </Avatar>
+            )) ||
+            (data.type === "Watch" && (
+              <Avatar
+                aria-label="recipe"
+                sx={{ bgcolor: "rgba(255, 0, 0, 0.5)" }}
+              >
+                <IoWatchOutline />
+              </Avatar>
+            )) ||
+            (data.type === "PC" && (
+              <Avatar
+                aria-label="recipe"
+                sx={{ bgcolor: "rgba(0, 125, 0, 0.5)" }}
+              >
+                <MdComputer />
+              </Avatar>
+            )) ||
+            (data.type === "Tv" && (
+              <Avatar
+                aria-label="recipe"
+                sx={{ bgcolor: "rgba(0, 0, 0, 0.5)" }}
+              >
+                <PiTelevisionSimple />
+              </Avatar>
+            ))
+          }
           action={
             auth.role === "admin" ? (
               <CardMenu
@@ -68,14 +106,16 @@ export default function CardProduct({
               />
             ) : null
           }
-          title={data.title}
+          title={data.type}
         />
         <CardContent>
-          <h1>Type : {data.type}</h1>
-          <p>Warranty : {data.warranty} year(s)</p>
+          <h1 className="card-type">{data.title}</h1>
+          <p className="card-warranty">
+            Garantie : {data.warranty} an{data.warranty > 1 ? "s" : ""}
+          </p>
         </CardContent>
         <CardActions disableSpacing>
-          <h1>Price : {data.price}€</h1>
+          <h1 className="card-price">{data.price}€</h1>
         </CardActions>
       </Card>
       <DeleteValidation

@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   width: 100vw;
-  height: 100vh;
+  height: 80vh;
 }
 
 .register-container {
@@ -16,5 +16,5 @@
   width: 40%;
   height: 70%;
   background-color: whitesmoke;
-  box-shadow: 15px 52px 44px rgba(0, 0, 0, 0.25);
+  box-shadow: 15px 15px 44px rgba(0, 0, 0, 0.25);
 }

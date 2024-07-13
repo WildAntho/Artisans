@@ -53,7 +53,7 @@ export default function Login() {
           helperText={
             errorInput
               ? "Mot de passe ou email incorrect"
-              : "Renseignez votre mot de passe"
+              : "Renseignez votre adresse mail"
           }
           value={email}
           onChange={(e) => {

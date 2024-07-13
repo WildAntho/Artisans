@@ -1,26 +1,14 @@
 import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import logo from "../../assets/logo.svg";
-import { purple } from "@mui/material/colors";
 import "./nav.css";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-export default function Nav({ handleOpen }) {
+export default function Nav({ auth, setAuth }) {
   const api = import.meta.env.VITE_API_URL;
 
-  const { auth } = useOutletContext();
-
   const navigate = useNavigate();
-
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
-    "&:hover": {
-      backgroundColor: purple[700],
-    },
-  }));
 
   // Function to logout
   const handleLogout = async () => {
@@ -29,6 +17,7 @@ export default function Nav({ handleOpen }) {
         credentials: "include",
       });
       if (response.ok) {
+        setAuth({ role: "user" });
         navigate("/login");
       }
     } catch (err) {
@@ -37,13 +26,13 @@ export default function Nav({ handleOpen }) {
   };
   return (
     <nav>
-      <img src={logo} alt="les bons artisans" />
+      <div className="first-container">
+        <img src={logo} alt="les bons artisans" />
+        <Button variant="text" onClick={() => navigate("/")}>
+          Accueil
+        </Button>
+      </div>
       <div className="nav-profil">
-        {auth.role === "admin" && (
-          <ColorButton variant="contained" onClick={handleOpen}>
-            Ajouter un article
-          </ColorButton>
-        )}
         {!auth.token && (
           <Button variant="text" onClick={() => navigate("/register")}>
             {"Créer un compte"}
@@ -65,5 +54,6 @@ export default function Nav({ handleOpen }) {
 }
 
 Nav.propTypes = {
-  handleOpen: PropTypes.func.isRequired,
+  auth: PropTypes.object,
+  setAuth: PropTypes.func,
 };
