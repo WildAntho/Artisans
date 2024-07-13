@@ -10,14 +10,20 @@
   background-color: white;
 }
 
-.modal-creation input {
+.modal-creation input,
+select {
   width: 60%;
-  height: 50px;
+  height: 60px;
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px 20px;
   box-shadow: 4px 3px 3px 0 rgba(0, 0, 0, 0.3);
-  border: solid black;
+  border: solid rgb(126, 126, 126);
   border-width: thin;
+}
+
+.modal-creation input:hover,
+select:hover {
+  border: solid black;
 }
 
 .container-button {

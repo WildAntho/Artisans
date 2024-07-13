@@ -106,12 +106,21 @@ export default function CreateArticle({
           defaultValue={idCard ? updateData.title : ""}
           ref={title}
         />
-        <input
-          type="text"
-          placeholder="Renseigner le type de l'article"
-          defaultValue={idCard ? updateData.type : ""}
+        <select
+          type=""
+          id="product-type"
+          name="type"
           ref={type}
-        />
+          defaultValue={idCard ? updateData.type : ""}
+        >
+          <option value="" disabled>
+            {"Renseigner le type de l'article"}
+          </option>
+          <option value="Phone">Phone</option>
+          <option value="Watch">Watch</option>
+          <option value="Tv">Tv</option>
+          <option value="Tv">PC</option>
+        </select>
         <input
           type="text"
           placeholder="Renseigner la date de fin de garantie"
