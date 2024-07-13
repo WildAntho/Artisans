@@ -16,11 +16,11 @@ Voir .env.sample
 
 ## Lancement application 
 
-4. Lancez le serveur:
+4. Lancez le serveur:  
 cd server  
 npm run dev  
 
-5. Lancez ensuite le client:
+5. Lancez ensuite le client:  
 cd ../client  
 npm run dev  
 
