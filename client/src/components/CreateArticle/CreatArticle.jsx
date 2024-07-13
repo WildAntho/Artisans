@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { Button, Modal } from "@mui/material";
+import { Button, Modal, TextField } from "@mui/material";
 import "./createarticle.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function CreateArticle({
@@ -13,69 +13,73 @@ export default function CreateArticle({
   // URL Api
   const api = import.meta.env.VITE_API_URL;
 
-  // useRef ton track all the inputs
-  const title = useRef(null);
-  const type = useRef(null);
-  const warranty = useRef(null);
-  const price = useRef(null);
+  // useState ton track all the inputs
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
+  const [warranty, setWarranty] = useState("");
+  const [price, setPrice] = useState("");
   const styles = {
     modalStyle1: {
       overflowY: "auto",
     },
   };
 
-  // State to fill input when updating
-  const [updateData, setUpdateData] = useState([]);
+  const [errorInput, setErrorInput] = useState({});
+
+  const category = [
+    {
+      value: "Phone",
+      label: "Phone",
+    },
+    {
+      value: "Watch",
+      label: "Watch",
+    },
+    {
+      value: "Tv",
+      label: "Tv",
+    },
+    {
+      value: "PC",
+      label: "PC",
+    },
+  ];
 
   const createProduct = async () => {
-    // Route post
-    if (!idCard) {
-      try {
-        const response = await fetch(`${api}/api/product/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: title.current.value,
-            type: type.current.value,
-            warranty: warranty.current.value,
-            price: price.current.value,
-          }),
+    setErrorInput({});
+    const method = idCard ? "PUT" : "POST";
+    const url = idCard ? `${api}/api/product/${idCard}` : `${api}/api/product/`;
+    // Route POST/PUT
+    try {
+      const response = await fetch(`${url}`, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          type,
+          warranty,
+          price,
+        }),
+      });
+      const data = await response.json();
+      if (data.details) {
+        data.details.forEach((detail) => {
+          setErrorInput((prev) => ({
+            ...prev,
+            [detail.context.key]: [detail.message],
+          }));
         });
-        if (response.ok) {
-          toast.success("Produit ajouté avec succès");
-          setUpdate((prev) => !prev);
-          handleClose();
-        }
-      } catch (error) {
-        toast.error("Une erreur est survenue");
+      } else {
+        toast.success(
+          idCard ? "Produit modifié avec succès" : "Produit ajouté avec succès"
+        );
+        setUpdate((prev) => !prev);
+        handleClose();
       }
-    }
-
-    // Route put
-    if (idCard) {
-      try {
-        const response = await fetch(`${api}/api/product/${idCard}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: title.current.value,
-            type: type.current.value,
-            warranty: warranty.current.value,
-            price: price.current.value,
-          }),
-        });
-        if (response.ok) {
-          toast.success("Produit modifié avec succès");
-          setUpdate((prev) => !prev);
-          handleClose();
-        }
-      } catch (error) {
-        toast.error("Une erreur est survenue");
-      }
+    } catch (error) {
+      toast.error("Une erreur est survenue");
     }
   };
 
@@ -84,7 +88,10 @@ export default function CreateArticle({
       const response = await fetch(`${api}/api/product/${idCard}`);
       if (response.ok) {
         const data = await response.json();
-        setUpdateData(data);
+        setTitle(data.title);
+        setType(data.type);
+        setWarranty(data.warranty);
+        setPrice(data.price);
       }
     } catch (error) {
       toast.error("Une erreur est survenue");
@@ -92,6 +99,10 @@ export default function CreateArticle({
   };
 
   useEffect(() => {
+    setTitle("");
+    setType("");
+    setWarranty("");
+    setPrice("");
     if (idCard) {
       getOneProduct();
     }
@@ -100,46 +111,86 @@ export default function CreateArticle({
   return (
     <Modal open={open} onClose={handleClose} style={styles.modalStyle1}>
       <section className="modal-creation">
-        <input
-          type="text"
-          placeholder="Renseigner le titre de l'article"
-          defaultValue={idCard ? updateData.title : ""}
-          ref={title}
-        />
-        <select
-          type=""
-          id="product-type"
-          name="type"
-          ref={type}
-          defaultValue={idCard ? updateData.type : ""}
-        >
-          <option value="" disabled>
-            {"Renseigner le type de l'article"}
-          </option>
-          <option value="Phone">Phone</option>
-          <option value="Watch">Watch</option>
-          <option value="Tv">Tv</option>
-          <option value="Tv">PC</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Renseigner la date de fin de garantie"
-          defaultValue={idCard ? updateData.warranty : ""}
-          ref={warranty}
-        />
-        <input
-          type="text"
-          placeholder="Renseigner le prix de l'article"
-          defaultValue={idCard ? updateData.price : ""}
-          ref={price}
-        />
-        <div className="container-button">
-          <Button variant="contained" color="success" onClick={createProduct}>
-            Valider
-          </Button>
-          <Button variant="outlined" color="error" onClick={handleClose}>
-            Annuler
-          </Button>
+        <div className="create-container">
+          <TextField
+            fullWidth
+            error={errorInput.title ? true : false}
+            label="Nom"
+            id="name"
+            helperText={
+              errorInput.title
+                ? "Veuillez renseigner un nom d'article"
+                : "Nom de l'article"
+            }
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+            }}
+          />
+          <TextField
+            fullWidth
+            error={errorInput.type ? true : false}
+            select
+            id="category"
+            label="Catégorie"
+            value={type}
+            SelectProps={{
+              native: true,
+            }}
+            helperText={
+              errorInput.type
+                ? "Veuillez renseigner le type d'article"
+                : "Sélectionner une catégorie"
+            }
+            onChange={(e) => {
+              setType(e.target.value);
+            }}
+          >
+            <option value="" disabled />
+            {category.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </TextField>
+          <TextField
+            fullWidth
+            error={errorInput.warranty ? true : false}
+            label="Garantie"
+            id="warranty"
+            helperText={
+              errorInput.warranty
+                ? "Veuillez renseigner la durée de garantie"
+                : "Durée de la garantie"
+            }
+            value={warranty}
+            onChange={(e) => {
+              setWarranty(e.target.value);
+            }}
+          />
+          <TextField
+            fullWidth
+            error={errorInput.price ? true : false}
+            label="Prix"
+            id="price"
+            helperText={
+              errorInput.price
+                ? "Veuillez renseigner le prix de l'article"
+                : "Prix de l'article"
+            }
+            value={price}
+            onChange={(e) => {
+              setPrice(e.target.value);
+            }}
+          />
+          <div className="container-button">
+            <Button variant="outlined" color="error" onClick={handleClose}>
+              Annuler
+            </Button>
+            <Button variant="contained" color="success" onClick={createProduct}>
+              Valider
+            </Button>
+          </div>
         </div>
       </section>
     </Modal>
@@ -150,5 +201,5 @@ CreateArticle.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   setUpdate: PropTypes.func.isRequired,
-  idCard: PropTypes.number.isRequired,
+  idCard: PropTypes.string.isRequired,
 };

@@ -1,8 +1,8 @@
 const express = require("express");
 const { addProduct, browse, getOne, deleteOne, updateOne, getType } = require("../controller/productController");
 const { hashPassword } = require("../services/hashPassword");
-const { validateSchema, schema } = require("../services/validateData");
-const { addUser, oneUser } = require("../controller/userController");
+const { validateSchema, schema, articleSchema } = require("../services/validateData");
+const { addUser, oneUser, deleteUser, getAll } = require("../controller/userController");
 
 const router = express.Router();
 
@@ -15,10 +15,10 @@ router.get("/product", browse)
 router.get("/product/:id", getOne)
 
 // Post route to add product
-router.post("/product", addProduct)
+router.post("/product", validateSchema(articleSchema), addProduct)
 
 // Update route
-router.put("/product/:id", updateOne)
+router.put("/product/:id", validateSchema(articleSchema), updateOne)
 
 // Delete route
 router.delete("/product/:id", deleteOne)
@@ -29,10 +29,16 @@ router.get("/product/category/:type", getType)
 
 // User router
 
+//Get all users
+router.get('/user', getAll)
+
 // Get one user
 router.get('/user/:id', oneUser)
 
 // Create user
-router.post("/user",hashPassword, validateSchema(schema), addUser)
+router.post("/user",validateSchema(schema), hashPassword, addUser)
+
+// Delete user
+router.delete('/user/:id', deleteUser)
 
 module.exports = router;

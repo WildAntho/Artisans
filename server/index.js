@@ -18,8 +18,6 @@ app.use(
   })
 );
 
-console.log(process.env.CLIENT_URL);
-
 mongoose.connect(`mongodb+srv://anthonydufrenot:${dbpass}@backendb.9mhl0om.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackenDB`)
   .then(() => {
     console.log('Connected!')

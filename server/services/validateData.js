@@ -8,18 +8,24 @@ const schema = joi.object({
     .string()
     .pattern(
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[*.!@$%^&(){}:;<>,.?/~_+-=|]).{8,}/
-    ),
-  role: joi.string(),
+    )
 });
+
+const articleSchema = joi.object({
+  title: joi.string(),
+  type: joi.string(),
+  warranty: joi.number(),
+  price: joi.number(),
+})
 
 const validateSchema = (validator) => async (req, res, next) => {
   try {
     await validator.validateAsync(req.body, { abortEarly: false });
     next();
   } catch (error) {
-    console.error(error.details[0].context);
+    console.log(error);
     res.status(400).json(error);
   }
 };
 
-module.exports = { schema, validateSchema };
+module.exports = { schema, articleSchema, validateSchema };
