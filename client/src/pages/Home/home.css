@@ -1,9 +1,18 @@
 .home {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+  width: 100vw;
+  margin: 100px 0;
+}
+
+.category {
+  display: flex;
   justify-content: center;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  gap: 20px;
 }
 
 .card-container {
@@ -12,6 +21,5 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
-  width: 60vw;
-  height: 60vh;
+  width: 90vw;
 }

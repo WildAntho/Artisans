@@ -3,6 +3,7 @@ import "./home.css";
 import CreateArticle from "../../components/CreateArticle/CreatArticle";
 import { useEffect, useState } from "react";
 import Nav from "../../components/Nav/Nav";
+import { Button } from "@mui/material";
 
 export default function Home() {
   // URL Api
@@ -16,6 +17,9 @@ export default function Home() {
 
   // State to update the list of products
   const [update, setUpdate] = useState(false);
+
+  // State to catch category clicked
+  const [category, setCategory] = useState("");
 
   // Function to open modal
   const handleOpen = () => {
@@ -33,26 +37,75 @@ export default function Home() {
 
   // Fetch to get all products
   const getProducts = async () => {
-    try {
-      const response = await fetch(`${api}/api/product`);
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
+    if (!category) {
+      try {
+        const response = await fetch(`${api}/api/product`);
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      try {
+        const response = await fetch(`${api}/api/product/category/${category}`);
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
   // Get all products at the component mount
   useEffect(() => {
     getProducts();
-  }, [update]);
+  }, [update, category]);
 
   return (
     <>
       <Nav handleOpen={handleOpen} setIdCard={setIdCard} />
       <section className="home">
+        <div className="category">
+          <Button
+            variant={category === "" ? "contained" : "outlined"}
+            value="Phone"
+            onClick={() => setCategory("")}
+          >
+            Tous
+          </Button>
+          <Button
+            variant={category === "Phone" ? "contained" : "outlined"}
+            value="Phone"
+            onClick={(e) => setCategory(e.target.value)}
+          >
+            Phone
+          </Button>
+          <Button
+            variant={category === "Watch" ? "contained" : "outlined"}
+            value="Watch"
+            onClick={(e) => setCategory(e.target.value)}
+          >
+            Watch
+          </Button>
+          <Button
+            variant={category === "Tv" ? "contained" : "outlined"}
+            value="Tv"
+            onClick={(e) => setCategory(e.target.value)}
+          >
+            Tv
+          </Button>
+          <Button
+            variant={category === "PC" ? "contained" : "outlined"}
+            value="PC"
+            onClick={(e) => setCategory(e.target.value)}
+          >
+            PC
+          </Button>
+        </div>
         <div className="card-container">
           {products.map((value) => (
             <CardProduct

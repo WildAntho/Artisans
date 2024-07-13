@@ -8,6 +8,16 @@ const dbpass = process.env.DB_PASSWORD
 
 app.use(express.json());
 
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: [
+      process.env.CLIENT_URL
+    ]
+  })
+);
+
 mongoose.connect(`mongodb+srv://anthonydufrenot:${dbpass}@backendb.9mhl0om.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackenDB`)
   .then(() => {
     console.log('Connected!')
