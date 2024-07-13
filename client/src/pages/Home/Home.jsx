@@ -2,16 +2,19 @@ import CardProduct from "../../components/Card/CardProduct";
 import "./home.css";
 import CreateArticle from "../../components/CreateArticle/CreatArticle";
 import { useEffect, useState } from "react";
-import Nav from "../../components/Nav/Nav";
 import { Button } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
+import { purple } from "@mui/material/colors";
+import { styled } from "@mui/material/styles";
 
 export default function Home() {
-  const { setAuth } = useOutletContext();
+  const { auth, setAuth } = useOutletContext();
 
   //Loading state to wait the refresh
   const [loading, setLoading] = useState(true);
+
+  const [errorInput, setErrorInput] = useState({});
 
   // URL Api
   const api = import.meta.env.VITE_API_URL;
@@ -40,6 +43,7 @@ export default function Home() {
   const handleClose = () => {
     setOpen(false);
     setIdCard(null);
+    setErrorInput({});
   };
 
   // Refresh call to stay connected
@@ -49,10 +53,14 @@ export default function Home() {
         credentials: "include",
       });
       const data = await response.json();
-      const token = response.headers.get("Authorization");
-      data.token = token;
-      setAuth(data);
-      setLoading(false);
+      if (data.message) {
+        setLoading(false);
+      } else {
+        const token = response.headers.get("Authorization");
+        data.token = token;
+        setAuth(data);
+        setLoading(false);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -91,10 +99,18 @@ export default function Home() {
     getProducts();
   }, [update, category]);
 
+  const ColorButton = styled(Button)(({ theme }) => ({
+    color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: purple[500],
+    "&:hover": {
+      backgroundColor: purple[700],
+    },
+    marginLeft: "50px",
+  }));
+
   return (
     <>
       {loading && <Loading />}
-      <Nav handleOpen={handleOpen} setIdCard={setIdCard} />
       <section className="home">
         <div className="category">
           <Button
@@ -132,6 +148,11 @@ export default function Home() {
           >
             PC
           </Button>
+          {auth.role === "admin" && (
+            <ColorButton variant="contained" onClick={handleOpen}>
+              Ajouter un article
+            </ColorButton>
+          )}
         </div>
         <div className="card-container">
           {products.map((value) => (
@@ -150,6 +171,8 @@ export default function Home() {
           setUpdate={setUpdate}
           idCard={idCard}
           setIdCard={setIdCard}
+          errorInput={errorInput}
+          setErrorInput={setErrorInput}
         />
       </section>
     </>

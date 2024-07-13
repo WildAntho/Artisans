@@ -1,0 +1,18 @@
+.card-product {
+  box-shadow: 4px 3px 3px 0 rgba(0, 0, 0, 0.2);
+  border: solid rgb(189, 189, 189);
+  border-width: thin;
+  color: rgb(182, 182, 0);
+}
+
+.card-type {
+  font-size: 20px;
+}
+
+.card-warranty {
+  font-size: 13px;
+}
+
+.card-price {
+  font-size: 17px;
+}

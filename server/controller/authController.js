@@ -35,7 +35,7 @@ const refresh = async (req, res, next) => {
     const {refreshToken} = req.cookies;
     try {
       if (!refreshToken) {
-        return res.sendStatus(204);
+        return res.status(200).json({message: 'No token provided'});
       }
       const decoded = jwt.verify(refreshToken, process.env.APP_SECRET);
       const user = await User.findById(decoded.id);

@@ -11,6 +11,8 @@ export default function CreateArticle({
   handleClose,
   setUpdate,
   idCard,
+  errorInput,
+  setErrorInput,
 }) {
   // URL Api
   const api = import.meta.env.VITE_API_URL;
@@ -27,8 +29,6 @@ export default function CreateArticle({
       overflowY: "auto",
     },
   };
-
-  const [errorInput, setErrorInput] = useState({});
 
   const category = [
     {
@@ -208,6 +208,8 @@ CreateArticle.propTypes = {
   handleClose: PropTypes.func.isRequired,
   setUpdate: PropTypes.func.isRequired,
   idCard: PropTypes.string,
+  errorInput: PropTypes.object.isRequired,
+  setErrorInput: PropTypes.func.isRequired,
 };
 
 CreateArticle.defaultProps = {
