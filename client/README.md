@@ -17,15 +17,15 @@ Voir .env.sample
 ## Lancement application 
 
 4. Lancez le serveur:
-cd server
-npm run dev
+cd server  
+npm run dev  
 
 5. Lancez ensuite le client:
-cd ../client
-npm run dev
+cd ../client  
+npm run dev  
 
 ## Partager sur votre propre dépôt
 
-6. Vérifier ensuite que votre .env est bien ignoré via le .gitignore
+6. Vérifiez ensuite que votre .env est bien ignoré via le .gitignore
 
    
