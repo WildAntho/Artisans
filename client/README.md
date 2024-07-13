@@ -1,8 +1,32 @@
-# React + Vite
+# Artisans
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Installation
 
-Currently, two official plugins are available:
+1. Clonez le dépôt :
+git@github.com:WildAntho/Artisans.git
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2. Installez les dépendances :
+cd client
+npm install
+cd ../server
+npm install
+
+3. Configurez les fichiers .env pour le client et le serveur :
+Voir .env.sample
+
+## Lancement application 
+
+4. Lancez le serveur:
+cd server
+npm run dev
+
+5. Lancez ensuite le client:
+cd ..
+cd client
+npm run dev
+
+## Partager sur votre propre dépôt
+
+6. Vérifier ensuite que votre .env est bien ignoré via le .gitignore
+
+   
