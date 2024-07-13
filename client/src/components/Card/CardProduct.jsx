@@ -66,7 +66,7 @@ export default function CardProduct({
             (data.type === "Phone" && (
               <Avatar
                 aria-label="recipe"
-                sx={{ bgcolor: "rgba(0, 0, 255, 0.5)" }}
+                sx={{ bgcolor: "rgba(24, 118, 210, 0.5)" }}
               >
                 <IoPhonePortraitOutline />
               </Avatar>

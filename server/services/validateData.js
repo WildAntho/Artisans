@@ -8,7 +8,8 @@ const schema = joi.object({
     .string()
     .pattern(
       /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[*.!@$%^&(){}:;<>,.?/~_+-=|]).{8,}/
-    )
+    ),
+    role: joi.any()
 });
 
 const articleSchema = joi.object({

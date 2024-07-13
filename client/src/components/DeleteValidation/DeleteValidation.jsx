@@ -9,11 +9,11 @@ export default function DeleteValidation({ handleDelete, handleClose, open }) {
         <div className="message-container">
           <p>Etes-vous sûr de vouloir supprimer ce produit ?</p>
           <div className="validation-button-container">
-            <Button variant="contained" color="success" onClick={handleDelete}>
-              Valider
-            </Button>
             <Button variant="outlined" color="error" onClick={handleClose}>
               Annuler
+            </Button>
+            <Button variant="contained" color="success" onClick={handleDelete}>
+              Valider
             </Button>
           </div>
         </div>

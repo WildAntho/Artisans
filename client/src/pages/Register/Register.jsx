@@ -1,4 +1,5 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Tooltip } from "@mui/material";
+import InfoIcon from "@mui/icons-material/Info";
 import "./register.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -14,10 +15,13 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [errorInput, setErrorInput] = useState({});
 
+  const longText =
+    "Votre mot de passe doit contenir 8 caractères minimum avec une majuscule, une minuscule, un chiffre et un caractère spécial";
+
   const handleRegister = async () => {
     setErrorInput({});
     try {
-      const response = await fetch(`${api}/api/user/`, {
+      const response = await fetch(`${api}/api/user/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,21 +66,26 @@ export default function Register() {
             setEmail(e.target.value);
           }}
         />
-        <TextField
-          fullWidth
-          error={errorInput.password ? true : false}
-          label="Mot de passe"
-          type="password"
-          helperText={
-            errorInput.email
-              ? "Mot de passe pas assez robuste"
-              : "Renseignez votre mot de passe"
-          }
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
+        <div className="input-password-container">
+          <TextField
+            fullWidth
+            error={errorInput.password ? true : false}
+            label="Mot de passe"
+            type="password"
+            helperText={
+              errorInput.email
+                ? "Mot de passe pas assez robuste"
+                : "Renseignez votre mot de passe"
+            }
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <Tooltip title={longText}>
+            <InfoIcon className="info-button" />
+          </Tooltip>
+        </div>
         <Button variant="contained" onClick={handleRegister}>
           {"Je m'inscris"}
         </Button>
