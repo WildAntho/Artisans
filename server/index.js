@@ -12,11 +12,17 @@ const cors = require("cors");
 
 app.use(
   cors({
+    exposedHeaders: ["Authorization"],
     origin: [
       process.env.CLIENT_URL
-    ]
+    ],
+    credentials: true
   })
 );
+
+const cookieParser = require("cookie-parser");
+
+app.use(cookieParser());
 
 mongoose.connect(`mongodb+srv://anthonydufrenot:${dbpass}@backendb.9mhl0om.mongodb.net/Node-API?retryWrites=true&w=majority&appName=BackenDB`)
   .then(() => {

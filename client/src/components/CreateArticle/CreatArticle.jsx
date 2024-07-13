@@ -3,6 +3,7 @@ import { Button, Modal, TextField } from "@mui/material";
 import "./createarticle.css";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useOutletContext } from "react-router-dom";
 
 export default function CreateArticle({
   open,
@@ -12,6 +13,8 @@ export default function CreateArticle({
 }) {
   // URL Api
   const api = import.meta.env.VITE_API_URL;
+
+  const { auth } = useOutletContext();
 
   // useState ton track all the inputs
   const [title, setTitle] = useState("");
@@ -55,6 +58,7 @@ export default function CreateArticle({
         method,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.token}`,
         },
         body: JSON.stringify({
           title,
@@ -83,6 +87,7 @@ export default function CreateArticle({
     }
   };
 
+  // Get the product edited
   const getOneProduct = async () => {
     try {
       const response = await fetch(`${api}/api/product/${idCard}`);
@@ -201,5 +206,9 @@ CreateArticle.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   setUpdate: PropTypes.func.isRequired,
-  idCard: PropTypes.string.isRequired,
+  idCard: PropTypes.string,
+};
+
+CreateArticle.defaultProps = {
+  idCard: null,
 };

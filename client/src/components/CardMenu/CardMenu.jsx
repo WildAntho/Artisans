@@ -57,11 +57,10 @@ function CardMenu({ handleOpen, anchorEl, setAnchorEl, handleOpenValidation }) {
 export default CardMenu;
 
 CardMenu.propTypes = {
-  handleDelete: PropTypes.func.isRequired,
   handleOpenValidation: PropTypes.func.isRequired,
-  anchorEl: PropTypes.instanceOf(Element),
+  anchorEl: PropTypes.object,
   setAnchorEl: PropTypes.func,
-  handleOpen: PropTypes.func.isRequired
+  handleOpen: PropTypes.func.isRequired,
 };
 
 CardMenu.defaultProps = {
