@@ -18,3 +18,16 @@
   background-color: whitesmoke;
   box-shadow: 15px 15px 44px rgba(0, 0, 0, 0.25);
 }
+
+.input-password-container {
+  position: relative;
+  width: 100%;
+}
+
+.info-button {
+  position: absolute;
+  right: 10px;
+  bottom: -5px;
+  cursor: pointer;
+  opacity: 0.5;
+}

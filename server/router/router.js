@@ -47,7 +47,7 @@ router.get('/user', getAll)
 router.get('/user/:id', oneUser)
 
 // Create user
-router.post("/user",validateSchema(schema), hashPassword, addUser)
+router.post("/user/create",validateSchema(schema), hashPassword, addUser)
 
 // Delete user
 router.delete('/user/:id', deleteUser)

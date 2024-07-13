@@ -2,6 +2,8 @@ import IconButton from "@mui/material/IconButton";
 import PropTypes from "prop-types";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 
 const ITEM_HEIGHT = 48;
@@ -48,8 +50,13 @@ function CardMenu({ handleOpen, anchorEl, setAnchorEl, handleOpenValidation }) {
           },
         }}
       >
-        <MenuItem onClick={managingOpen}>éditer</MenuItem>
-        <MenuItem onClick={handleOpenValidation}>supprimer</MenuItem>
+        <MenuItem onClick={managingOpen}>
+          {<EditIcon fontSize="small" sx={{ marginRight: "5px" }} />}Editer
+        </MenuItem>
+        <MenuItem onClick={handleOpenValidation}>
+          {<DeleteIcon fontSize="small" sx={{ marginRight: "5px" }} />}
+          Supprimer
+        </MenuItem>
       </Menu>
     </div>
   );

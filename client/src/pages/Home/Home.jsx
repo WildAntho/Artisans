@@ -2,11 +2,10 @@ import CardProduct from "../../components/Card/CardProduct";
 import "./home.css";
 import CreateArticle from "../../components/CreateArticle/CreatArticle";
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { Button, Fab } from "@mui/material";
 import { useOutletContext } from "react-router-dom";
 import Loading from "../../components/Loading/Loading";
-import { purple } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
 
 export default function Home() {
   const { auth, setAuth } = useOutletContext();
@@ -99,15 +98,6 @@ export default function Home() {
     getProducts();
   }, [update, category]);
 
-  const ColorButton = styled(Button)(({ theme }) => ({
-    color: theme.palette.getContrastText(purple[500]),
-    backgroundColor: purple[500],
-    "&:hover": {
-      backgroundColor: purple[700],
-    },
-    marginLeft: "50px",
-  }));
-
   return (
     <>
       {loading && <Loading />}
@@ -149,9 +139,23 @@ export default function Home() {
             PC
           </Button>
           {auth.role === "admin" && (
-            <ColorButton variant="contained" onClick={handleOpen}>
-              Ajouter un article
-            </ColorButton>
+            <div className="add-product-container">
+              <Button
+                variant="text"
+                sx={{ marginLeft: "50px" }}
+                onClick={handleOpen}
+              >
+                Ajouter un article
+              </Button>
+              <Fab
+                color="primary"
+                aria-label="add"
+                sx={{ marginLeft: "10px", zIndex: 0 }}
+                onClick={handleOpen}
+              >
+                <AddIcon />
+              </Fab>
+            </div>
           )}
         </div>
         <div className="card-container">

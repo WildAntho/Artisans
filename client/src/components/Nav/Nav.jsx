@@ -4,6 +4,7 @@ import logo from "../../assets/logo.svg";
 import "./nav.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { Avatar } from "@mui/material";
 
 export default function Nav({ auth, setAuth }) {
   const api = import.meta.env.VITE_API_URL;
@@ -47,6 +48,11 @@ export default function Nav({ auth, setAuth }) {
           <Button variant="text" onClick={handleLogout}>
             {"Se déconnecter"}
           </Button>
+        )}
+        {auth.token && (
+          <Avatar sx={{ bgcolor: "rgba(24, 118, 210, 1)" }}>
+            {auth.email.slice(0, 2).toUpperCase()}
+          </Avatar>
         )}
       </div>
     </nav>
