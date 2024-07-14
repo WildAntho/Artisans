@@ -9,8 +9,12 @@ const verifyToken = async (req, res, next) => {
     if (type !== "Bearer")
       throw new Error("authorization type should be 'Bearer'");
     const decoded = jwt.verify(token, process.env.APP_SECRET);
-    req.auth = decoded;
-    next();
+    if (decoded.role === 'admin'){
+      req.auth = decoded;
+      next();
+    } else {
+      res.sendStatus(401)
+    }
   } catch (error) {
     res.sendStatus(401)
   }
