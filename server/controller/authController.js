@@ -40,7 +40,7 @@ const refresh = async (req, res, next) => {
       const decoded = jwt.verify(refreshToken, process.env.APP_SECRET);
       const user = await User.findById(decoded.id);
       delete user.password;
-      const accessToken = jwt.sign({ id: user._id }, process.env.APP_SECRET, {
+      const accessToken = jwt.sign({ id: user._id, role: user.role }, process.env.APP_SECRET, {
         expiresIn: "1h",
       });
       return res.status(200).header("Authorization", accessToken).json(user);
